@@ -1,0 +1,97 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	<div class="flexrow">
+        {{#each opts as |opt|}}
+        	<div class="keyword">
+        		<input class="keyword-label" name="{{opt.name}}" id="{{opt.name}}" type="text" value="{{../selectedOptions.opt.name}}" data-control="{{opt.name}}"/>
+        		<div class="keyword-options {{#if opt.selectable}}active{{/if}}">
+        			{{#each opt.options as |val|}}
+        				<a data-keyword-value="{{val}}" data-keyword-category={{opt.name}}>{{val}}</a>
+        			{{/each}}
+        		</div>
+        	</div>
+        {{/each}}
+<!-- 		<select name="ancestry" id="ancestry">
+			{{#each opts.ancestry as |opt|}}
+				<option {{#ifEquals ../selectedOptions.ancestry opt}}selected{{/ifEquals}} value="{{opt}}">{{opt}}</option>
+			{{/each}}
+		</select>
+ --><!-- 		<select name="experience" id="experience">
+			{{#each opts.experience as |opt|}}
+				<option {{#ifEquals ../selectedOptions.experience opt}}selected{{/ifEquals}} value="{{opt}}">{{opt}}</option>
+			{{/each}}
+		</select>
+		<select name="equipment" id="equipment">
+			{{#each opts.equipment as |opt|}}
+				<option {{#ifEquals ../selectedOptions.equipment opt}}selected{{/ifEquals}} value="{{opt}}">{{opt}}</option>
+			{{/each}}
+		</select>
+		<select name="_type" id="_type">
+			{{#each opts._type as |opt|}}
+				<option {{#ifEquals ../selectedOptions._type opt}}selected{{/ifEquals}} value="{{opt}}">{{opt}}</option>
+			{{/each}}
+		</select>
+ -->	</div>
+	<div class="flexrow">
+		<div class="flexcol">
+			<ul class="ability-scores flexrow">
+	            <li class="ability" data-unit-score="attack">
+	                <h4 class="ability-name box-title rollable">Attack</h4>
+					<input class="ability-score" name="attributes.attack" type="text" value="{{attributes.attack}}" data-dtype="Number">
+	            </li>
+	            <li class="ability" data-unit-score="defense">
+	                <h4 class="ability-name box-title rollable">defense</h4>
+					<input class="ability-score" name="attributes.defense" type="text" value="{{attributes.defense}}" data-dtype="Number">
+	            </li>
+			</ul>
+			<ul class="ability-scores flexrow">
+	            <li class="ability" data-unit-score="power">
+	                <h4 class="ability-name box-title rollable">power</h4>
+					<input class="ability-score" name="attributes.power" type="text" value="{{attributes.power}}" data-dtype="Number">
+	            </li>
+	            <li class="ability" data-unit-score="toughness">
+	                <h4 class="ability-name box-title rollable">toughness</h4>
+					<input class="ability-score" name="attributes.toughness" type="text" value="{{attributes.toughness}}" data-dtype="Number">
+	            </li>
+			</ul>
+			<ul class="ability-scores flexrow">
+	            <li class="ability" data-unit-score="morale">
+	                <h4 class="ability-name box-title rollable">morale</h4>
+					<input class="ability-score" name="attributes.morale" type="text" value="{{attributes.morale}}" data-dtype="Number">
+	            </li>
+	            <li class="ability" data-unit-score="size">
+	                <h4 class="ability-name box-title rollable">size</h4>
+					<input class="ability-score" name="selectedOptions.size" type="text" value="{{selectedOptions.size}}">
+	            </li>
+			</ul>
+		</div>
+	</div>
+	<div class="flexrow">
+		<h4>Traits</h4>
+		<ul class="trait-list">
+			{{#each traits as |trait|}}
+				<li class="trait">
+					<h4 class="trait-label">{{trait.label}}</h4>
+					<p class="trait-body">{{trait.description}}</p>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

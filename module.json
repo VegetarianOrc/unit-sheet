@@ -1,0 +1,17 @@
+{
+  "name": "strongholds",
+  "title": "Strongholds - A warfare and home base module",
+  "description": "A module to implement unit warfare and stronghold upkeep.",
+  "author": "VegetarianOrc",
+  "version": "1.0.0",
+  "minimumCoreVersion": "0.6.5",
+  "systems": [
+  	"dnd5e"
+  ],
+  "styles": [
+    "styles/unit.css"
+  ],
+  "esmodules": [
+  	"module/unit.js"
+  ]
+}

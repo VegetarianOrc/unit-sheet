@@ -1,0 +1,38 @@
+.keyword {
+    position: relative;
+    font-family: "Modesto Condensed", "Palatino Linotype", serif;
+}
+
+.keyword .keyword-label {
+    font-size: 25px;
+    text-align: center;
+}
+
+.keyword .keyword-options {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    max-height: 250px;
+    overflow-y: scroll;
+    min-width: 50px;
+    background: url("../../../systems/dnd5e/ui/parchment.jpg") repeat;
+}
+
+.keyword .keyword-options.active {
+    display: block;
+}
+
+.keyword .keyword-options a {
+    text-decoration: none;
+    text-transform: capitalize;
+    padding: 15px 20px;
+    /*font-family: "Modesto Condensed", "Palatino Linotype", serif;*/
+    font-size: 18px;
+    font-weight: 200;
+    border-style: none none solid none;
+    border-width: 1px;
+    display: block;
+}
+
+.keyword .keyword-options a:hover {
+}
