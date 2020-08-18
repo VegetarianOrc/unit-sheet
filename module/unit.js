@@ -14,13 +14,51 @@ function DEBUG_LOG(...args) {
 	console.log('Mazzeo---',...args);
 }
 
+
+class OptionMenu {
+	constructor(unitSheet, optionName, optionValues, currentValue) {
+		this.unitSheet = unitSheet;
+		this.optionName = optionName;
+		this.optionValues = optionValues;
+		this.currentValue = this.currentValue;
+		this.visible = false;
+	}
+
+	get element() {
+		return this.unitSheet._element.find(`[data-menu-name=${this.optionName}]`);
+	}
+
+	get label() {
+		return this.element.find('.keyword-label');
+	}
+
+	get options() {
+		return this.element.find('.keyword-options')
+	}
+
+	setValue(value) {
+		this.currentValue = value;
+	}
+
+	open() {
+		if (this.visible) {return;}
+		this.options.addClass('active');
+		this.visible = true;
+	}
+
+	close() {
+		if (!this.visible) {return;}
+		this.options.removeClass('active');
+		this.visible = false;
+	}
+
+}
+
 class UnitSheet extends ActorSheet5eCharacter {
 	constructor(...args) {
 		super(...args);
 
-		this.prepFlags().then((flags) => {
-			this.opts = this._prepareUnitOptions(flags);
-		})
+		this.prepFlags()
 
 	}
 
@@ -68,14 +106,14 @@ class UnitSheet extends ActorSheet5eCharacter {
 			event.preventDefault();
 			let control = event.currentTarget.dataset.control;
 			DEBUG_LOG('focus');
-			this.actor.setFlag(UNIT_NAMESPACE, control+'-active', true)
+			this.menus[control].open();
 		});
+
+		html.find('.keyword').click(event => event.stopPropagation());
 
 		html.click((event) => {
 			DEBUG_LOG('blur');
-			this.opts.forEach((opt) => {
-				this.actor.unsetFlag(UNIT_NAMESPACE, opt.name+'-active');
-			})
+			Object.values(this.menus).forEach(menu => menu.close());
 		});
 
 		html.find('.keyword .keyword-options a').click((event) => {
@@ -83,12 +121,16 @@ class UnitSheet extends ActorSheet5eCharacter {
 			let value = event.currentTarget.dataset.keywordValue;
 			DEBUG_LOG('click', 'category', category, 'value', value);
 			this._updateSelectedOption(category, value);
-			this.actor.unsetFlag(UNIT_NAMESPACE, category+'-active');
+			this.menus[category].close();
 		});
 
-		// ['ancestry', 'experience', 'equipment', '_type'].forEach((id) => {
-		// 	html.find('#'+id).change(this._makeSelectListener(id));
-		// });
+		html.find('[data-roll-formula]').click(event => {
+			event.preventDefault();
+			let rollFormula = event.currentTarget.dataset.rollFormula;
+			let roll = new Roll(rollFormula).roll();
+			roll.toMessage({speaker: ChatMessage.getSpeaker({actor:this.actor})});
+		});
+
 	};
 
 
@@ -113,21 +155,10 @@ class UnitSheet extends ActorSheet5eCharacter {
 			sheetData.traits = this._prepareUnitTraits(existingData.selectedOptions);
 		}
 
-		let opts = this._prepareUnitOptions(flags);
-
-		sheetData['opts'] = opts;
+		this._prepMenus(sheetData.selectedOptions);
+		sheetData.optMenus = this.menus;
 
 		return sheetData;
-	}
-
-	prepMenus() {
-
-	}
-
-	_makeSelectListener(id) {
-		return async (event) => {
-			return this._updateSelectedOption(id, event.target.value);
-		};
 	}
 
 	async _updateSelectedOption(key, value) {
@@ -187,30 +218,21 @@ class UnitSheet extends ActorSheet5eCharacter {
 		return 10 + this._calculateBonus('toughness', selectedOptions);
 	}
 
-	_prepareUnitOptions(flags) {
-		let safeFlags = flags || {};
-		return [
-			{
-				name: 'ancestry',
-				options: Object.keys(AncestryOptions),
-				selectable: safeFlags['ancestry-active'] ?? false
-			},
-			{
-				name: 'experience',
-				options: Object.keys(ExperienceOptions),
-				selectable: safeFlags['experience-active'] ?? false
-			},
-			{
-				name: 'equipment',
-				options: Object.keys(EquipmentOptions),
-				selectable: safeFlags['equipment-active'] ?? false
-			},
-			{
-				name: '_type',
-				options: Object.keys(TypeOptions),
-				selectable: safeFlags['_type-active'] ?? false
+	_prepMenus(selectedOptions) {
+		let safeOptions = selectedOptions || {};
+		if (this.menus === undefined || this.menus === null) {
+			this.menus = {
+				'ancestry': new OptionMenu(this, 'ancestry', Object.keys(AncestryOptions), safeOptions['ancestry']),
+				'experience': new OptionMenu(this, 'experience', Object.keys(ExperienceOptions), safeOptions['experience']),
+				'equipment': new OptionMenu(this, 'equipment', Object.keys(EquipmentOptions), safeOptions['equipment']),
+				'_type': new OptionMenu(this, '_type', Object.keys(TypeOptions), safeOptions['_type'])
 			}
-		]
+		}
+		Object.keys(safeOptions).forEach(optName => {
+			let menu = this.menus[optName];
+			if (menu !== undefined && menu !== null)
+			menu.setValue(safeOptions[optName]);
+		});
 	}
 
 }

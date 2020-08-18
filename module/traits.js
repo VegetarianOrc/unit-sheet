@@ -44,7 +44,7 @@ export default {
 		cost: 200
 	},
 	'ravenous': {
-		description: 'Ravenous While there is a diminished enemy unit, this unit can spend a round feeding on the corpses. Increment their casualty die.',
+		description: 'While there is a diminished enemy unit, this unit can spend a round feeding on the corpses. Increment their casualty die.',
 		cost: 50
 	},
 	'hurl rocks': {
@@ -68,7 +68,7 @@ export default {
 		cost: 200
 	},
 	'undead': {
-		description: 'Undead Green and Regular troops must pass a Morale check to attack this unit. Each enemy unit need only do this once.',
+		description: 'Green and Regular troops must pass a Morale check to attack this unit. Each enemy unit need only do this once.',
 		cost: 50
 	}
 }
