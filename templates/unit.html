@@ -1,4 +1,7 @@
 <form class="unit-sheet flexcol" autocomplete="off">
+	<div class="unit-name flexrow">
+		<h2>{{name}}</h2>
+	</div>
 	<div class="keywords flexrow">
         {{#each optMenus as |menu|}}
         	<div class="keyword" data-menu-name={{menu.optionName}}>
@@ -15,7 +18,7 @@
 		<div class="scores flexcol">
 			<div class="score-row flexrow">
 	            <div class=score-entry>
-	                <h4 class="score-header" data-roll-formula="1d20 + {{attributes.attack}}">Attack</h4>
+	                <h4 class="score-header rollable" data-roll-formula="1d20 + {{attributes.attack}}">Attack</h4>
 					<input class=score-input name="attributes.attack" type="text" value="{{attributes.attack}}" data-dtype="Number">
 	            </div>
 	            <div class=score-entry>
@@ -25,7 +28,7 @@
 			</div>
 			<div class="score-row flexrow">
 	            <div class=score-entry>
-	                <h4 class="score-header" data-roll-formula="1d20 + {{attributes.power}}">Power</h4>
+	                <h4 class="score-header rollable" data-roll-formula="1d20 + {{attributes.power}}">Power</h4>
 					<input class=score-input name="attributes.power" type="text" value="{{attributes.power}}" data-dtype="Number">
 	            </div>
 	            <div class=score-entry>
@@ -35,7 +38,7 @@
 			</div>
 			<div class="score-row flexrow">
 	            <div class=score-entry>
-	                <h4 class="score-header" data-roll-formula="1d20 + {{attributes.morale}}">Morale</h4>
+	                <h4 class="score-header rollable" data-roll-formula="1d20 + {{attributes.morale}}">Morale</h4>
 					<input class=score-input name="attributes.morale" type="text" value="{{attributes.morale}}" data-dtype="Number">
 	            </div>
 	            <div class=score-entry>

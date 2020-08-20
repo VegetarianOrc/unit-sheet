@@ -59,7 +59,14 @@ class UnitSheet extends ActorSheet5eCharacter {
 		super(...args);
 
 		this.prepFlags()
+	}
 
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			width: 320,
+			height: 322,
+			resizable: false
+		});
 	}
 
 
@@ -106,17 +113,24 @@ class UnitSheet extends ActorSheet5eCharacter {
 			event.preventDefault();
 			let control = event.currentTarget.dataset.control;
 			DEBUG_LOG('focus');
-			this.menus[control].open();
+			Object.values(this.menus).forEach(menu => {
+				if (menu.optionName === control) {
+					menu.open();
+				} else {
+					menu.close();
+				}
+			});
 		});
+
 
 		html.find('.keyword').click(event => event.stopPropagation());
 
 		html.click((event) => {
-			DEBUG_LOG('blur');
 			Object.values(this.menus).forEach(menu => menu.close());
 		});
 
 		html.find('.keyword .keyword-options a').click((event) => {
+			event.preventDefault();
 			let category = event.currentTarget.dataset.keywordCategory;
 			let value = event.currentTarget.dataset.keywordValue;
 			DEBUG_LOG('click', 'category', category, 'value', value);
@@ -136,6 +150,8 @@ class UnitSheet extends ActorSheet5eCharacter {
 
 	async getData() {
 		let sheetData = super.getData();
+
+		sheetData.name = this.actor.name;
 
 
 		let flags = duplicate(this.flags);
